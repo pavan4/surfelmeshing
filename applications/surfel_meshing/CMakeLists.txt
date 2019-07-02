@@ -25,7 +25,6 @@ target_include_directories(SurfelMeshing PRIVATE
 )
 target_link_libraries(SurfelMeshing gmp ${PCL_LIBRARIES} libvis_cuda ${BASE_LIB_LIBRARIES} X11)
 
-
 # Tests.
 add_executable(SurfelMeshing_Octree_Test
   src/surfel_meshing/test/test_octree.cc

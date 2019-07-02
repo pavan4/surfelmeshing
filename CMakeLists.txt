@@ -81,12 +81,16 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 # Instruct CMake to run rcc (resource compiler) automatically when needed.
 set(CMAKE_AUTORCC ON)
-find_package(Qt5Widgets)
+find_package(Qt5 COMPONENTS Widgets)
 find_package(Qt5X11Extras)
 find_package(Qt5OpenGL)
 
 if(Qt5Widgets_FOUND)
   add_definitions(-DLIBVIS_HAVE_QT)
+  include_directories("/usr/include/qt5/QtWidgets")
+  include_directories("/usr/include/qt5")
+  include_directories("/usr/include/qt5/QtGui")
+  include_directories("/usr/include/qt5/QtCore")
 endif()
 
 
@@ -159,6 +163,10 @@ endfunction()
 
 include_directories(
   ./libvis/src
+)
+include_directories(
+  /surfelmeshing/applications/surfel_meshing/src
+  /surfelmeshing/applications/surfel_meshing/third_party/cub-1.7.4
 )
 
 if(VULKAN_FOUND)
@@ -242,7 +250,9 @@ endif()
 add_library(libvis SHARED
   ${LIBVIS_FILES}
 )
-
+target_link_libraries(
+libvis Qt5::Widgets 
+)
 set(BASE_LIB_LIBRARIES
   ${Boost_LIBRARIES}
   ${GLEW_LIBRARIES}
@@ -283,11 +293,10 @@ cuda_add_library(libvis_cuda SHARED
   libvis/src/libvis/cuda/cuda_unprojection_lookup.cuh
   libvis/src/libvis/cuda/cuda_unprojection_lookup.h
   libvis/src/libvis/cuda/cuda_util.h
+ /surfelmeshing/libvis/resources/resources.qrc
 )
 target_link_libraries(libvis_cuda
   libvis
 )
-
-
 # Applications.
 add_subdirectory(applications)
