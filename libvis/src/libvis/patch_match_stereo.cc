@@ -617,7 +617,7 @@ void PatchMatchStereoCPU::ComputeDepthMap_(
             context_radius_,
             match_metric_);
         
-        if (!::isnan(proposal_costs) && !(proposal_costs >= costs(x, y))) {
+        if (!std::isnan(proposal_costs) && !(proposal_costs >= costs(x, y))) {
           costs(x, y) = proposal_costs;
           normals(x, y) = proposed_normal;
           (*inv_depth_map)(x, y) = proposed_inv_depth;
@@ -752,7 +752,7 @@ void PatchMatchStereoCPU::ComputeDepthMap_(
             Vec2f other_nxy = reference_camera.UnprojectFromPixelCenterConv(Vec2i(x + dx, y + dy)).template cast<float>().template topRows<2>();
             
             float other_inv_depth = (*inv_depth_map)(x + dx, y + dy);
-            if (::isnan(other_inv_depth)) {
+            if (std::isnan(other_inv_depth)) {
               continue;
             }
             float other_depth = 1.f / other_inv_depth;
@@ -779,7 +779,7 @@ void PatchMatchStereoCPU::ComputeDepthMap_(
                 context_radius_,
                 match_metric_);
             
-            if (!::isnan(proposal_costs) && !(proposal_costs >= costs(x, y))) {
+            if (!std::isnan(proposal_costs) && !(proposal_costs >= costs(x, y))) {
               costs(x, y) = proposal_costs;
               normals(x, y) = other_normal_xy;
               (*inv_depth_map)(x, y) = inv_depth;
